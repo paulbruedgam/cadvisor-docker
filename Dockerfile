@@ -6,7 +6,7 @@ RUN apt-get update \
     && apt-get install --no-install-recommends --yes git dmsetup \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && mkdir /go/src/github.com/google/cadvisor
+    && mkdir -p /go/src/github.com/google/cadvisor
 
 WORKDIR /go/src/github.com/google/cadvisor
 
