@@ -11,6 +11,6 @@ RUN apt-get update \
 WORKDIR /go/src/github.com/google/cadvisor
 
 RUN git clone https://github.com/google/cadvisor.git . \
-    && make
+    && make build
 
 ENTRYPOINT ["/go/src/github.com/google/cadvisor/cadvisor"]
