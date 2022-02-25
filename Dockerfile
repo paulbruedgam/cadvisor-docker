@@ -1,3 +1,4 @@
+# https://chemidy.medium.com/create-the-smallest-and-secured-golang-docker-image-based-on-scratch-4752223b7324
 ############################
 # STEP 1 build executable binary
 ############################
@@ -18,7 +19,7 @@ RUN apk update \
       tzdata \
     && update-ca-certificates
 
-# See https://stackoverflow.com/a/55757473/12429735RUN 
+# See https://stackoverflow.com/a/55757473/12429735RUN
 RUN adduser \
     --disabled-password \
     --gecos "" \

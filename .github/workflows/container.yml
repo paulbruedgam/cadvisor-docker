@@ -131,6 +131,7 @@ jobs:
           push: true
           tags: |
             ${{ needs.prepare.outputs.DOCKER_REPOSITORY }}:${{ needs.prepare.outputs.DOCKER_TAG }}
+            ${{ needs.prepare.outputs.DOCKER_REPOSITORY }}:${{ github.sha }}
 #          target: runtime-image
 
       - name: Inspect image
