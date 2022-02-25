@@ -11,6 +11,7 @@ ENV UID=10001
 
 # Install git.
 # Git is required for fetching the dependencies.
+# hadolint ignore=DL3018
 RUN apk update \
     && apk add --no-cache \
       ca-certificates \
