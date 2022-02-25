@@ -15,7 +15,7 @@ ENV UID=10001
 RUN apk update \
     && apk add --no-cache \
       ca-certificates \
-      dmsetup \
+      device-mapper \
       git \
       tzdata \
     && update-ca-certificates
