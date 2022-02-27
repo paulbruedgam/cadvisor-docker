@@ -33,7 +33,7 @@ RUN adduser \
 WORKDIR $GOPATH/src/github.com/google/cadvisor
 
 RUN git clone https://github.com/google/cadvisor.git . \
-    && GOOS=linux GOARCH="$(arch)" go build -ldflags="-w -s" -o make build
+    && GOOS=linux GOARCH="$(uname -m)" go build -ldflags="-w -s" -o make build
 
 ############################
 # STEP 2 build a small image
