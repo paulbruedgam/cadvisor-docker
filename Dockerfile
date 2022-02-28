@@ -14,6 +14,7 @@ ENV UID=10001
 # hadolint ignore=DL3018
 RUN apk update \
     && apk add --no-cache \
+      bash \
       ca-certificates \
       device-mapper \
       git \
