@@ -15,10 +15,10 @@ ENV UID=10001
 RUN apk update \
     && apk add --no-cache \
       bash \
+      build-base \
       ca-certificates \
       device-mapper \
       git \
-      make \
       tzdata \
     && update-ca-certificates
 
