@@ -17,6 +17,7 @@ RUN apk update \
       ca-certificates \
       device-mapper \
       git \
+      make \
       tzdata \
     && update-ca-certificates
 
