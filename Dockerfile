@@ -23,14 +23,18 @@ RUN apk update \
     && update-ca-certificates
 
 # See https://stackoverflow.com/a/55757473/12429735RUN
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-    --no-create-home \
-    --shell "/sbin/nologin" \
-    --system \
-    --uid "${UID}" \
-    "${USER}"
+RUN addgroup \
+      --gid "${UID}" \
+      --system "${USER}" \
+    && adduser \
+      --disabled-password \
+      --gecos "" \
+      --ingroup "${USER}" \
+      --no-create-home \
+      --shell "/sbin/nologin" \
+      --system \
+      --uid "${UID}" \
+      "${USER}"
 
 WORKDIR $GOPATH/src/github.com/google/cadvisor
 
