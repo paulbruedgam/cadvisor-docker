@@ -39,6 +39,7 @@ RUN addgroup \
 WORKDIR $GOPATH/src/github.com/google/cadvisor
 
 RUN git clone https://github.com/google/cadvisor.git . \
+    && sed -i 's/^ldflags="/ldflags="-linkmode external -extldflags -static/g' build/build.sh \
     && make build
 
 ############################
@@ -55,10 +56,10 @@ COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
 
 # Copy our static executable.
-COPY --from=builder /go/src/github.com/google/cadvisor/cadvisor /app/cadvisor
+COPY --chown=gouser:gouser --from=builder /go/src/github.com/google/cadvisor/cadvisor /app/cadvisor
 
 # Use an unprivileged user.
 USER gouser:gouser
 
 # Run the binary.
-ENTRYPOINT ["/app/cadvisor"]
+ENTRYPOINT [ "/app/cadvisor" ]
