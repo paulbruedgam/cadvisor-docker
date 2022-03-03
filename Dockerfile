@@ -26,6 +26,9 @@ RUN apk update \
 RUN addgroup \
       --gid "${UID}" \
       --system "${USER}" \
+    && addgroup \
+      --gid 995 \
+      --system docker \
     && adduser \
       --disabled-password \
       --gecos "" \
