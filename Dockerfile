@@ -32,7 +32,7 @@ RUN addgroup \
     && adduser \
       --disabled-password \
       --gecos "" \
-      --ingroup "${USER}" \
+      --ingroup "${USER}" docker \
       --no-create-home \
       --shell "/sbin/nologin" \
       --system \
