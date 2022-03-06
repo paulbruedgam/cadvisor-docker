@@ -32,12 +32,13 @@ RUN addgroup \
     && adduser \
       --disabled-password \
       --gecos "" \
-      --ingroup "${USER}" docker \
+      --ingroup "${USER}" \
       --no-create-home \
       --shell "/sbin/nologin" \
       --system \
       --uid "${UID}" \
-      "${USER}"
+      "${USER}" \
+    && addgroup "${USER}" docker
 
 WORKDIR $GOPATH/src/github.com/google/cadvisor
 
