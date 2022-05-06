@@ -19,6 +19,7 @@ env:
     linux/arm/v7
     linux/arm64
     linux/amd64
+  CADVISOR_RELEASE: 'v0.44.1'
   # Enable Docker Buildkit
   DOCKER_BUILDKIT: 1
   IMAGE_NAME: cadvisor
@@ -71,7 +72,7 @@ jobs:
 
   # Build and push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
-  build:
+  build_and_push:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     needs: [prepare]
@@ -87,42 +88,15 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build Image
-        uses: docker/build-push-action@v2
-        with:
-          build-args: REPO=${{ github.repository }}
-          context: .
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          file: Dockerfile
-          platforms: ${{ env.BUILD_PLATFORM }}
-          push: false
-
-  # Build and push image to GitHub Packages.
-  # See also https://docs.docker.com/docker-hub/builds/
-  push:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    needs: [prepare, build]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-      
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Build Runtime Image and Push
-        uses: docker/build-push-action@v2
+      - name: Build Image
+        uses: docker/build-push-action@v3
         with:
-          build-args: REPO=${{ github.repository }}
+          build-args: |
+            CADVISOR_RELEASE=${{ env.CADVISOR_RELEASE }}
+            REPO=${{ github.repository }}
           context: .
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -132,7 +106,6 @@ jobs:
           tags: |
             ${{ needs.prepare.outputs.DOCKER_REPOSITORY }}:${{ needs.prepare.outputs.DOCKER_TAG }}
             ${{ needs.prepare.outputs.DOCKER_REPOSITORY }}:${{ github.sha }}
-#          target: runtime-image
 
       - name: Inspect image
         if: success()
@@ -142,7 +115,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
-    needs: [prepare, push]
+    needs: [prepare, build_and_push]
 
     steps:
       - name: Checkout

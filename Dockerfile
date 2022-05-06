@@ -42,7 +42,10 @@ RUN addgroup \
 
 WORKDIR $GOPATH/src/github.com/google/cadvisor
 
+ARG CADVISOR_RELEASE
+
 RUN git clone https://github.com/google/cadvisor.git . \
+    && git checkout tags/${CADVISOR_RELEASE} \
     && sed -i 's/^ldflags="/ldflags="-linkmode external -extldflags -static/g' build/build.sh \
     && make build
 
