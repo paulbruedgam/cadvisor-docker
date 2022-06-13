@@ -1,0 +1,19 @@
+name: Delete old container images
+
+on:
+  schedule:
+    - cron: '0 0 0 * *'  # the first day of the month
+
+jobs:
+  clean-ghcr:
+    name: Delete old unused container images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old images
+        uses: snok/container-retention-policy@v1
+        with:
+          image-names: cadvisor
+          cut-off: One month ago UTC
+          keep-at-least: 1
+          account-type: personal
+          token: ${{ secrets.GITHUB_TOKEN }}

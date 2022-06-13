@@ -3,7 +3,7 @@
 # STEP 1 build executable binary
 ############################
 FROM golang:1.17-alpine as builder
-LABEL maintainer="Paul Brüdgam <paul@bruedgam.eu>"
+LABEL maintainer="Paul Brüdgam"
 
 # Create appuser.
 ENV USER=gouser
